@@ -13,41 +13,64 @@
       const img=view.querySelector('img');
       const title=view.querySelector('h2');
       const text=view.querySelector('.future-overlay p');
-      if(img){img.removeAttribute('id');img.src=cfg.image;img.alt=cfg.title;img.loading='eager';img.decoding='sync'}
+      if(img){img.removeAttribute('id');img.src=cfg.image;img.alt=cfg.title;img.loading='eager';img.decoding='async'}
       if(title){title.removeAttribute('id');title.textContent=cfg.title}
       if(text){text.removeAttribute('id');text.textContent=cfg.text}
       if(i>0)original.parentNode.insertBefore(view,original.nextSibling);
     });
   }
 
-  const newSwitch=function(name){
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    const map={muscleup:'muscleupView',onearm:'onearmView',frontlever:'frontleverView',planche:'plancheView'};
-    if(map[name])document.getElementById(map[name])?.classList.add('active');
-    else if(name==='history'){
-      document.getElementById('historyView')?.classList.add('active');
-      if(typeof renderHistory==='function')renderHistory();
-    }
-  };
-  window.switchView=newSwitch;
-  try{switchView=newSwitch}catch(e){}
+  const map={muscleup:'muscleupView',onearm:'onearmView',frontlever:'frontleverView',planche:'plancheView'};
+  const tabs=[...document.querySelectorAll('.skill-tab')];
+  let locked=false;
 
-  let busy=false;
-  document.querySelectorAll('.skill-tab').forEach(tab=>{
-    tab.addEventListener('pointerdown',()=>{
-      if(busy||tab.classList.contains('active'))return;
+  const showView=name=>{
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    const id=map[name];
+    if(id)document.getElementById(id)?.classList.add('active');
+  };
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',e=>{
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if(locked||tab.classList.contains('active'))return;
       const oldView=document.querySelector('.view.active');
-      if(!oldView)return;
-      const rect=oldView.getBoundingClientRect();
-      const ghost=oldView.cloneNode(true);
-      ghost.removeAttribute('id');
-      ghost.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-      ghost.className='tab-crossfade-ghost';
-      Object.assign(ghost.style,{position:'fixed',left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,margin:'0',zIndex:'90',pointerEvents:'none',overflow:'hidden'});
-      document.body.appendChild(ghost);
-      busy=true;
-      requestAnimationFrame(()=>ghost.classList.add('fade-out'));
-      setTimeout(()=>{ghost.remove();busy=false},430);
-    },{passive:true});
+      const name=tab.dataset.skill;
+      if(!oldView||!map[name])return;
+      locked=true;
+      tabs.forEach(t=>t.classList.toggle('active',t===tab));
+
+      oldView.style.willChange='opacity';
+      oldView.style.transition='opacity 180ms ease';
+      oldView.style.opacity='0';
+
+      setTimeout(()=>{
+        oldView.style.transition='';
+        oldView.style.opacity='';
+        oldView.style.willChange='';
+        showView(name);
+        const newView=document.getElementById(map[name]);
+        if(!newView){locked=false;return;}
+        newView.style.opacity='0';
+        newView.style.willChange='opacity';
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          newView.style.transition='opacity 260ms cubic-bezier(.22,.61,.36,1)';
+          newView.style.opacity='1';
+          setTimeout(()=>{
+            newView.style.transition='';
+            newView.style.opacity='';
+            newView.style.willChange='';
+            locked=false;
+          },280);
+        }));
+      },180);
+    },true);
+  });
+
+  ['muscle-up.png','one-arm-pull-up.png','front-lever.png','planche.png'].forEach(src=>{
+    const img=new Image();
+    img.src='./'+src;
+    if(img.decode)img.decode().catch(()=>{});
   });
 })();
