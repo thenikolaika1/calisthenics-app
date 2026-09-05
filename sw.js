@@ -1,4 +1,4 @@
-const CACHE='calisthenics-v24';
+const CACHE='calisthenics-v25';
 const STATIC=['./','./index.html','./styles.css?v=24','./contrast.css?v=24','./app.js?v=24','./tab-animation.js?v=24','./manifest.webmanifest?v=24','./icon.svg?v=24'];
 const IMAGES=['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([...STATIC,...IMAGES])).then(()=>self.skipWaiting()));});
