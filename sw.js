@@ -1,5 +1,6 @@
-const CACHE='calisthenics-v5';
-const ASSETS=['./','./index.html?v=5','./styles.css?v=5','./app.js?v=5','./manifest.webmanifest?v=5','./icon.svg','./muscle-up.png?v=5','./one-arm-pull-up.png?v=5','./front-lever.png?v=5','./planche.png?v=5'];
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
+const CACHE='calisthenics-v8';
+const STATIC=['./','./index.html','./styles.css?v=8','./app.js?v=8','./manifest.webmanifest?v=8','./icon.svg'];
+const IMAGES=['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
+self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([...STATIC,...IMAGES])).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./index.html?v=5'))));});
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;const url=new URL(event.request.url);const isSkillImage=IMAGES.some(path=>url.pathname.endsWith(path.slice(1)));if(isSkillImage){event.respondWith(caches.match(event.request,{ignoreSearch:true}).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;})));return;}event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./index.html'))));});
