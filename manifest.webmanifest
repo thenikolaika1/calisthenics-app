@@ -1,7 +1,7 @@
 {
-  "name": "Калистеника",
-  "short_name": "Калистеника",
-  "description": "Личный трекер тренировок по калистенике",
+  "name": "Спорт Трекер — мой путь",
+  "short_name": "Спорт Трекер",
+  "description": "Личный трекер спортивных целей, тренировок и прогресса",
   "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
@@ -10,6 +10,6 @@
   "theme_color": "#050505",
   "orientation": "portrait-primary",
   "icons": [
-    {"src":"./icon.svg?v=18","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon.svg?v=19","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ]
 }
