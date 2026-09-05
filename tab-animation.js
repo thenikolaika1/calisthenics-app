@@ -24,11 +24,12 @@
   const tabs=[...document.querySelectorAll('.skill-tab')];
   let locked=false;
 
-  const showView=name=>{
+  function posterImg(view){return view?.querySelector('.poster-card > img')||null}
+  function showView(name){
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     const id=map[name];
     if(id)document.getElementById(id)?.classList.add('active');
-  };
+  }
 
   tabs.forEach(tab=>{
     tab.addEventListener('click',e=>{
@@ -37,40 +38,39 @@
       if(locked||tab.classList.contains('active'))return;
       const oldView=document.querySelector('.view.active');
       const name=tab.dataset.skill;
-      if(!oldView||!map[name])return;
+      const newView=document.getElementById(map[name]);
+      if(!oldView||!newView)return;
       locked=true;
       tabs.forEach(t=>t.classList.toggle('active',t===tab));
 
-      oldView.style.willChange='opacity';
-      oldView.style.transition='opacity 180ms ease';
-      oldView.style.opacity='0';
+      const oldImg=posterImg(oldView);
+      const oldRect=oldImg?.getBoundingClientRect();
+      let ghost=null;
+      if(oldImg&&oldRect&&oldRect.width>0&&oldRect.height>0){
+        ghost=oldImg.cloneNode(true);
+        ghost.className='pose-ghost';
+        Object.assign(ghost.style,{position:'fixed',left:`${oldRect.left}px`,top:`${oldRect.top}px`,width:`${oldRect.width}px`,height:`${oldRect.height}px`,objectFit:getComputedStyle(oldImg).objectFit||'contain',objectPosition:getComputedStyle(oldImg).objectPosition||'center',margin:'0',zIndex:'120',pointerEvents:'none',borderRadius:getComputedStyle(oldImg).borderRadius});
+        document.body.appendChild(ghost);
+      }
+
+      showView(name);
+      const newImg=posterImg(newView);
+      if(newImg){newImg.style.opacity='.18';newImg.style.transform='scale(.992)';newImg.style.transition='none';}
+
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        if(ghost){ghost.style.transition='opacity 520ms cubic-bezier(.22,.61,.36,1),transform 520ms cubic-bezier(.22,.61,.36,1)';ghost.style.opacity='0';ghost.style.transform='scale(1.012)'}
+        if(newImg){newImg.style.transition='opacity 520ms cubic-bezier(.22,.61,.36,1),transform 520ms cubic-bezier(.22,.61,.36,1)';newImg.style.opacity='1';newImg.style.transform='scale(1)'}
+      }));
 
       setTimeout(()=>{
-        oldView.style.transition='';
-        oldView.style.opacity='';
-        oldView.style.willChange='';
-        showView(name);
-        const newView=document.getElementById(map[name]);
-        if(!newView){locked=false;return;}
-        newView.style.opacity='0';
-        newView.style.willChange='opacity';
-        requestAnimationFrame(()=>requestAnimationFrame(()=>{
-          newView.style.transition='opacity 260ms cubic-bezier(.22,.61,.36,1)';
-          newView.style.opacity='1';
-          setTimeout(()=>{
-            newView.style.transition='';
-            newView.style.opacity='';
-            newView.style.willChange='';
-            locked=false;
-          },280);
-        }));
-      },180);
+        ghost?.remove();
+        if(newImg){newImg.style.transition='';newImg.style.opacity='';newImg.style.transform=''}
+        locked=false;
+      },560);
     },true);
   });
 
   ['muscle-up.png','one-arm-pull-up.png','front-lever.png','planche.png'].forEach(src=>{
-    const img=new Image();
-    img.src='./'+src;
-    if(img.decode)img.decode().catch(()=>{});
+    const img=new Image();img.src='./'+src;if(img.decode)img.decode().catch(()=>{});
   });
 })();
