@@ -22,29 +22,57 @@
 
   const map={muscleup:'muscleupView',onearm:'onearmView',frontlever:'frontleverView',planche:'plancheView'};
   const tabs=[...document.querySelectorAll('.skill-tab')];
-  const views=[...document.querySelectorAll('.view')];
+  const views=()=>[...document.querySelectorAll('.view')];
+  let switching=false;
 
-  function showView(name){
-    const target=document.getElementById(map[name]);
-    if(!target)return;
-    views.forEach(v=>v.classList.remove('active','tab-fast-enter'));
-    target.classList.add('active');
-    requestAnimationFrame(()=>target.classList.add('tab-fast-enter'));
-    setTimeout(()=>target.classList.remove('tab-fast-enter'),170);
-  }
+  function posterImg(view){return view?.querySelector('.poster-card > img')||null}
+  function setActiveView(target){views().forEach(v=>v.classList.remove('active'));target.classList.add('active')}
 
   tabs.forEach(tab=>{
     tab.addEventListener('click',e=>{
       e.preventDefault();
       e.stopImmediatePropagation();
-      if(tab.classList.contains('active'))return;
+      if(switching||tab.classList.contains('active'))return;
+
+      const oldView=document.querySelector('.view.active');
+      const target=document.getElementById(map[tab.dataset.skill]);
+      if(!oldView||!target)return;
+
+      const oldImg=posterImg(oldView);
+      switching=true;
       tabs.forEach(t=>t.classList.toggle('active',t===tab));
-      showView(tab.dataset.skill);
+      setActiveView(target);
+
+      const newImg=posterImg(target);
+      const poster=target.querySelector('.poster-card');
+      if(!newImg||!poster||!oldImg){switching=false;return;}
+
+      const ghost=oldImg.cloneNode(true);
+      ghost.className='pose-layer-old';
+      ghost.removeAttribute('id');
+      poster.appendChild(ghost);
+
+      newImg.classList.add('pose-layer-new');
+      newImg.style.opacity='0.14';
+      newImg.style.transform='scale(.992)';
+
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        ghost.classList.add('pose-layer-fade');
+        newImg.style.opacity='1';
+        newImg.style.transform='scale(1)';
+      }));
+
+      setTimeout(()=>{
+        ghost.remove();
+        newImg.classList.remove('pose-layer-new');
+        newImg.style.opacity='';
+        newImg.style.transform='';
+        switching=false;
+      },340);
     },true);
   });
 
   ['muscle-up.png','one-arm-pull-up.png','front-lever.png','planche.png'].forEach(src=>{
-    const img=new Image();
-    img.src='./'+src;
+    const img=new Image();img.src='./'+src;if(img.decode)img.decode().catch(()=>{});
   });
 })();
