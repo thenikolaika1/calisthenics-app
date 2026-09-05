@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffb000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Calisthenics" />
+  <title>Calisthenics — 2 Year Journey</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">2 YEAR JOURNEY</p>
+        <h1>CALISTHENICS</h1>
+      </div>
+      <button id="installBtn" class="icon-btn hidden" type="button" aria-label="Установить приложение">＋</button>
+    </header>
+
+    <nav class="skill-tabs" aria-label="Элементы калистеники">
+      <button class="skill-tab active" data-skill="muscleup">Выход силой</button>
+      <button class="skill-tab" data-skill="onearm">Подтягивание на одной руке</button>
+      <button class="skill-tab" data-skill="frontlever">Front Lever</button>
+      <button class="skill-tab" data-skill="planche">Горизонт</button>
+    </nav>
+
+    <main>
+      <section id="muscleupView" class="view active">
+        <article class="hero-card">
+          <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 520 240" role="img">
+              <defs>
+                <linearGradient id="heroGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffd21a"/>
+                  <stop offset="1" stop-color="#ff6a00"/>
+                </linearGradient>
+              </defs>
+              <circle cx="430" cy="62" r="105" fill="url(#heroGlow)" opacity=".16"/>
+              <line x1="60" y1="72" x2="460" y2="72" stroke="#f7f7f7" stroke-width="10" stroke-linecap="round"/>
+              <circle cx="275" cy="110" r="19" fill="#ffb000"/>
+              <path d="M272 130 C265 150 251 165 232 178" fill="none" stroke="#f5f5f5" stroke-width="14" stroke-linecap="round"/>
+              <path d="M263 138 L205 103 L175 74" fill="none" stroke="#f5f5f5" stroke-width="13" stroke-linecap="round"/>
+              <path d="M275 137 L330 103 L350 74" fill="none" stroke="#f5f5f5" stroke-width="13" stroke-linecap="round"/>
+              <path d="M236 177 L192 207" fill="none" stroke="#ffb000" stroke-width="14" stroke-linecap="round"/>
+              <path d="M236 177 L275 211" fill="none" stroke="#ff7a00" stroke-width="14" stroke-linecap="round"/>
+              <circle cx="175" cy="72" r="9" fill="#ffb000"/>
+              <circle cx="350" cy="72" r="9" fill="#ffb000"/>
+            </svg>
+          </div>
+          <div class="hero-copy">
+            <span class="status-pill">ТЕКУЩАЯ ЦЕЛЬ</span>
+            <h2>Выход силой</h2>
+            <p>Этап: выход с резинкой + небольшая контролируемая раскачка</p>
+            <div class="week-progress-row">
+              <div>
+                <strong id="weekPercent">0%</strong>
+                <span>неделя</span>
+              </div>
+              <div class="progress-track"><div id="weekProgressBar" class="progress-fill"></div></div>
+            </div>
+          </div>
+        </article>
+
+        <section class="week-section">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">ТЕКУЩАЯ НЕДЕЛЯ</p>
+              <h3 id="weekLabel">Неделя</h3>
+            </div>
+            <button id="historyBtn" class="text-btn" type="button">История</button>
+          </div>
+
+          <div id="dayStrip" class="day-strip" aria-label="Дни недели"></div>
+
+          <article class="workout-panel">
+            <div class="workout-heading">
+              <div>
+                <span id="dayLoadBadge" class="load-badge">Тренировка</span>
+                <h3 id="dayTitle">Сегодня</h3>
+                <p id="daySubtitle">~30 минут</p>
+              </div>
+              <div class="day-score"><strong id="dayPercent">0%</strong><span>готово</span></div>
+            </div>
+
+            <div id="exerciseList" class="exercise-list"></div>
+
+            <div class="day-progress-footer">
+              <div class="progress-track"><div id="dayProgressBar" class="progress-fill"></div></div>
+              <p id="dayProgressText">0 из 0 выполнено</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="share-card">
+          <div>
+            <p class="eyebrow">ДЛЯ АНАЛИЗА ПРОГРЕССА</p>
+            <h3>Поделиться неделей</h3>
+            <p>Скопируй отчёт и отправь его мне в чат — по нему можно обновить следующую неделю.</p>
+          </div>
+          <button id="shareWeekBtn" class="primary-btn" type="button">Скопировать отчёт</button>
+        </section>
+      </section>
+
+      <section id="futureView" class="view future-view">
+        <article class="future-card">
+          <div class="future-icon">🔒</div>
+          <p class="eyebrow">БУДУЩАЯ ЦЕЛЬ</p>
+          <h2 id="futureTitle">Подтягивание на одной руке</h2>
+          <p id="futureText">Тренировки появятся здесь позже. Сейчас основной фокус — выход силой.</p>
+          <div class="coming-line"><span></span><b>COMING LATER</b><span></span></div>
+        </article>
+      </section>
+
+      <section id="historyView" class="view history-view">
+        <div class="section-head history-head">
+          <div>
+            <p class="eyebrow">ПРОГРЕСС</p>
+            <h2>История недель</h2>
+          </div>
+          <button id="backBtn" class="text-btn" type="button">Назад</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
