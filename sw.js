@@ -1,5 +1,5 @@
-const CACHE='calisthenics-v12';
-const STATIC=['./','./index.html','./styles.css?v=12','./contrast.css?v=12','./app.js?v=12','./tab-animation.js?v=12','./manifest.webmanifest?v=12','./icon.svg'];
+const CACHE='calisthenics-v13';
+const STATIC=['./','./index.html','./styles.css?v=13','./contrast.css?v=13','./app.js?v=13','./tab-animation.js?v=13','./manifest.webmanifest?v=13','./icon.svg'];
 const IMAGES=['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([...STATIC,...IMAGES])).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
