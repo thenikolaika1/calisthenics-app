@@ -1,5 +1,5 @@
-const CACHE='calisthenics-v4';
-const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
+const CACHE='calisthenics-v5';
+const ASSETS=['./','./index.html?v=5','./styles.css?v=5','./app.js?v=5','./manifest.webmanifest?v=5','./icon.svg','./muscle-up.png?v=5','./one-arm-pull-up.png?v=5','./front-lever.png?v=5','./planche.png?v=5'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./index.html'))));});
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./index.html?v=5'))));});
