@@ -1,12 +1,15 @@
 {
-  "name": "Калистеника — мой путь",
+  "name": "Калистеника",
   "short_name": "Калистеника",
-  "description": "Личный офлайн-трекер тренировок по калистенике",
-  "start_url": "./",
+  "description": "Личный трекер тренировок по калистенике",
+  "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#050505",
   "theme_color": "#050505",
   "orientation": "portrait-primary",
-  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "icons": [
+    {"src":"./icon.svg?v=18","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
 }
