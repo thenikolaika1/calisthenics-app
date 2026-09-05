@@ -1,0 +1,26 @@
+/* Более контрастная версия интерфейса: светлее карточки, белее текст, насыщеннее золото */
+body{background:linear-gradient(180deg,#111214 0,#171511 42%,#101113 100%)!important}
+.card,.workout-panel,.share-card,.history-card{background:linear-gradient(145deg,#23272a,#1a1d20)!important;border-color:#454a4f!important;box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.workout-panel{background:linear-gradient(145deg,#25292c,#1c1f22)!important}
+.workout-heading{border-bottom-color:#454a4e!important}
+.workout-heading h3,.exercise-main b,.share-card h3,.card-title{color:#fff!important}
+.workout-heading p,.day-score span,.exercise-main span,.day-progress-footer p,.share-card p{color:#c7cbce!important}
+.exercise-card{background:linear-gradient(135deg,#2d3134,#262a2d)!important;border-color:#4a4f54!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.exercise-card:hover{border-color:#62686e!important;background:linear-gradient(135deg,#32373a,#2a2e31)!important}
+.check-box{background:#202326!important;border-color:#777e84!important}
+.exercise-card.checked{background:linear-gradient(135deg,#3b3528,#302f2a)!important;border-color:#b08a42!important;box-shadow:inset 0 0 0 1px rgba(224,181,87,.08),0 7px 18px rgba(0,0,0,.12)!important}
+.exercise-card.checked .check-box{background:linear-gradient(135deg,#ffe39a,#e7b94e)!important;border-color:#f5d47c!important;box-shadow:0 0 0 3px rgba(233,190,87,.15)!important;color:#17120a!important}
+.exercise-card.checked .exercise-main b{color:#fff!important}
+.exercise-card.checked .exercise-main span{color:#e1e3e4!important}
+.tag{background:#40351d!important;color:#f3cc70!important}
+.exercise-card.checked .tag{background:#584824!important;color:#ffe08d!important}
+.progress-track{background:#494d50!important}
+.progress-fill{background:linear-gradient(90deg,#f0c75f,#c99736)!important}
+.day-btn{background:#202326!important;border-color:#41464b!important;color:#c3c7ca!important}
+.day-btn.done{background:#3a3323!important;border-color:#94743a!important;color:#f0c86b!important}
+.day-btn.active{background:linear-gradient(145deg,#e6bd5b,#bd8b33)!important;color:#111!important}
+.skill-tab{background:#1d2023!important;border-color:#40454a!important;color:#c7cacf!important}
+.skill-tab.active{background:linear-gradient(135deg,#e2ba58,#b98431)!important;color:#111!important}
+.primary-btn{background:linear-gradient(135deg,#e8bf59,#bd8b35)!important;border-color:#d1a44b!important;color:#111!important;box-shadow:0 8px 20px rgba(198,151,60,.12)}
+.safety{background:#242019!important;border-color:#5e5032!important;color:#d0d0d0!important}.safety b{color:#f0c769!important}
+.mini,.text-btn,.poster-row>strong,.day-score strong,.history-percent{color:#e8bd59!important}
