@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded',()=>{
-  const animateActiveView=()=>{
-    requestAnimationFrame(()=>{
-      const view=document.querySelector('.view.active');
-      if(!view)return;
-      view.classList.remove('tab-enter');
-      void view.offsetWidth;
-      view.classList.add('tab-enter');
-      window.setTimeout(()=>view.classList.remove('tab-enter'),380);
-    });
-  };
+  let running=null;
   document.querySelectorAll('.skill-tab').forEach(tab=>{
-    tab.addEventListener('click',()=>window.setTimeout(animateActiveView,0));
+    tab.addEventListener('click',()=>{
+      requestAnimationFrame(()=>{
+        const view=document.querySelector('.view.active');
+        if(!view||!view.animate)return;
+        if(running)running.cancel();
+        running=view.animate([
+          {opacity:.72,transform:'translateX(6px)'},
+          {opacity:1,transform:'translateX(0)'}
+        ],{duration:145,easing:'cubic-bezier(.2,.75,.2,1)',fill:'none'});
+        running.onfinish=()=>{running=null};
+      });
+    });
   });
 });
