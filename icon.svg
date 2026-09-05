@@ -1,17 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffd21a"/>
-      <stop offset="1" stop-color="#ff6a00"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="120" fill="#080808"/>
-  <circle cx="392" cy="116" r="92" fill="url(#g)" opacity=".18"/>
-  <rect x="70" y="118" width="372" height="28" rx="14" fill="#f7f7f7"/>
-  <circle cx="266" cy="214" r="34" fill="#ffb000"/>
-  <path d="M262 248 C250 292 224 318 188 342" fill="none" stroke="#f7f7f7" stroke-width="28" stroke-linecap="round"/>
-  <path d="M246 263 L169 205 L146 141" fill="none" stroke="#f7f7f7" stroke-width="26" stroke-linecap="round"/>
-  <path d="M276 264 L350 205 L369 141" fill="none" stroke="#f7f7f7" stroke-width="26" stroke-linecap="round"/>
-  <path d="M193 344 L140 402" fill="none" stroke="#ffd21a" stroke-width="30" stroke-linecap="round"/>
-  <path d="M194 344 L250 403" fill="none" stroke="#ff6a00" stroke-width="30" stroke-linecap="round"/>
+  <rect width="512" height="512" rx="112" fill="#050505"/>
+  <g transform="translate(20 8)">
+    <!-- head -->
+    <circle cx="353" cy="189" r="35" fill="#fff"/>
+    <!-- neck -->
+    <path d="M319 205 L342 198 L350 222 L326 232 Z" fill="#fff"/>
+    <!-- torso, chest and back in a horizontal planche line -->
+    <path d="M190 230 C225 211 273 207 329 220 C344 224 351 237 344 250 C336 265 318 272 294 271 L209 266 C190 265 176 254 176 243 C176 238 181 233 190 230 Z" fill="#fff"/>
+    <!-- rear leg -->
+    <path d="M205 247 C166 243 126 243 84 249 C67 252 57 264 61 276 C65 288 80 293 97 289 L203 271 Z" fill="#fff"/>
+    <!-- front leg -->
+    <path d="M207 258 C166 260 127 269 91 283 C76 289 69 303 75 314 C81 325 96 328 111 321 L218 277 Z" fill="#fff"/>
+    <!-- feet -->
+    <path d="M60 257 C42 260 30 268 29 278 C28 287 39 292 53 289 L83 280 Z" fill="#fff"/>
+    <path d="M75 294 C57 302 48 311 51 320 C55 329 67 331 81 324 L108 310 Z" fill="#fff"/>
+    <!-- near arm -->
+    <path d="M300 256 C309 255 318 260 321 270 L339 336 C342 347 336 357 326 360 C316 363 307 357 304 346 L286 280 C283 270 290 260 300 256 Z" fill="#fff"/>
+    <!-- far arm -->
+    <path d="M259 257 C268 255 277 261 279 271 L292 338 C294 349 287 358 277 360 C266 362 258 355 256 344 L243 277 C241 267 248 259 259 257 Z" fill="#fff"/>
+    <!-- parallettes -->
+    <g fill="#fff">
+      <rect x="235" y="354" width="66" height="10" rx="5"/>
+      <rect x="285" y="354" width="70" height="10" rx="5"/>
+      <rect x="245" y="364" width="8" height="28" rx="4"/>
+      <rect x="284" y="364" width="8" height="28" rx="4"/>
+      <rect x="298" y="364" width="8" height="28" rx="4"/>
+      <rect x="339" y="364" width="8" height="28" rx="4"/>
+    </g>
+    <!-- muscle separations / definition -->
+    <g fill="none" stroke="#151515" stroke-width="7" stroke-linecap="round" opacity=".95">
+      <path d="M292 225 C302 235 306 247 302 260"/>
+      <path d="M251 219 C260 232 262 248 257 263"/>
+      <path d="M214 228 C225 238 229 250 226 264"/>
+      <path d="M193 248 C173 253 151 259 130 269"/>
+      <path d="M184 261 C162 270 143 280 124 292"/>
+      <path d="M300 278 C307 296 311 315 313 333"/>
+      <path d="M260 279 C267 298 270 317 272 336"/>
+    </g>
+    <!-- small yellow accent under hands -->
+    <rect x="232" y="393" width="124" height="8" rx="4" fill="#FFD84D"/>
+  </g>
 </svg>
