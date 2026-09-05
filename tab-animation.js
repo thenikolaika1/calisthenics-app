@@ -22,55 +22,29 @@
 
   const map={muscleup:'muscleupView',onearm:'onearmView',frontlever:'frontleverView',planche:'plancheView'};
   const tabs=[...document.querySelectorAll('.skill-tab')];
-  let locked=false;
+  const views=[...document.querySelectorAll('.view')];
 
-  function posterImg(view){return view?.querySelector('.poster-card > img')||null}
   function showView(name){
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    const id=map[name];
-    if(id)document.getElementById(id)?.classList.add('active');
+    const target=document.getElementById(map[name]);
+    if(!target)return;
+    views.forEach(v=>v.classList.remove('active','tab-fast-enter'));
+    target.classList.add('active');
+    requestAnimationFrame(()=>target.classList.add('tab-fast-enter'));
+    setTimeout(()=>target.classList.remove('tab-fast-enter'),170);
   }
 
   tabs.forEach(tab=>{
     tab.addEventListener('click',e=>{
       e.preventDefault();
       e.stopImmediatePropagation();
-      if(locked||tab.classList.contains('active'))return;
-      const oldView=document.querySelector('.view.active');
-      const name=tab.dataset.skill;
-      const newView=document.getElementById(map[name]);
-      if(!oldView||!newView)return;
-      locked=true;
+      if(tab.classList.contains('active'))return;
       tabs.forEach(t=>t.classList.toggle('active',t===tab));
-
-      const oldImg=posterImg(oldView);
-      const oldRect=oldImg?.getBoundingClientRect();
-      let ghost=null;
-      if(oldImg&&oldRect&&oldRect.width>0&&oldRect.height>0){
-        ghost=oldImg.cloneNode(true);
-        ghost.className='pose-ghost';
-        Object.assign(ghost.style,{position:'fixed',left:`${oldRect.left}px`,top:`${oldRect.top}px`,width:`${oldRect.width}px`,height:`${oldRect.height}px`,objectFit:getComputedStyle(oldImg).objectFit||'contain',objectPosition:getComputedStyle(oldImg).objectPosition||'center',margin:'0',zIndex:'120',pointerEvents:'none',borderRadius:getComputedStyle(oldImg).borderRadius});
-        document.body.appendChild(ghost);
-      }
-
-      showView(name);
-      const newImg=posterImg(newView);
-      if(newImg){newImg.style.opacity='.18';newImg.style.transform='scale(.992)';newImg.style.transition='none';}
-
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        if(ghost){ghost.style.transition='opacity 520ms cubic-bezier(.22,.61,.36,1),transform 520ms cubic-bezier(.22,.61,.36,1)';ghost.style.opacity='0';ghost.style.transform='scale(1.012)'}
-        if(newImg){newImg.style.transition='opacity 520ms cubic-bezier(.22,.61,.36,1),transform 520ms cubic-bezier(.22,.61,.36,1)';newImg.style.opacity='1';newImg.style.transform='scale(1)'}
-      }));
-
-      setTimeout(()=>{
-        ghost?.remove();
-        if(newImg){newImg.style.transition='';newImg.style.opacity='';newImg.style.transform=''}
-        locked=false;
-      },560);
+      showView(tab.dataset.skill);
     },true);
   });
 
   ['muscle-up.png','one-arm-pull-up.png','front-lever.png','planche.png'].forEach(src=>{
-    const img=new Image();img.src='./'+src;if(img.decode)img.decode().catch(()=>{});
+    const img=new Image();
+    img.src='./'+src;
   });
 })();
