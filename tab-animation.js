@@ -13,25 +13,24 @@
       const img=view.querySelector('img');
       const title=view.querySelector('h2');
       const text=view.querySelector('.future-overlay p');
-      if(img){img.src=cfg.image;img.alt=cfg.title;img.loading='eager';img.decoding='sync'}
-      if(title)title.textContent=cfg.title;
-      if(text)text.textContent=cfg.text;
+      if(img){img.removeAttribute('id');img.src=cfg.image;img.alt=cfg.title;img.loading='eager';img.decoding='sync'}
+      if(title){title.removeAttribute('id');title.textContent=cfg.title}
+      if(text){text.removeAttribute('id');text.textContent=cfg.text}
       if(i>0)original.parentNode.insertBefore(view,original.nextSibling);
     });
   }
 
-  const oldSwitch=window.switchView;
-  window.switchView=function(name){
+  const newSwitch=function(name){
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    if(name==='muscleup')document.getElementById('muscleupView')?.classList.add('active');
-    else if(name==='onearm')document.getElementById('onearmView')?.classList.add('active');
-    else if(name==='frontlever')document.getElementById('frontleverView')?.classList.add('active');
-    else if(name==='planche')document.getElementById('plancheView')?.classList.add('active');
+    const map={muscleup:'muscleupView',onearm:'onearmView',frontlever:'frontleverView',planche:'plancheView'};
+    if(map[name])document.getElementById(map[name])?.classList.add('active');
     else if(name==='history'){
       document.getElementById('historyView')?.classList.add('active');
       if(typeof renderHistory==='function')renderHistory();
-    }else if(typeof oldSwitch==='function')oldSwitch(name);
+    }
   };
+  window.switchView=newSwitch;
+  try{switchView=newSwitch}catch(e){}
 
   let busy=false;
   document.querySelectorAll('.skill-tab').forEach(tab=>{
