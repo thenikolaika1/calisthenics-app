@@ -4,6 +4,7 @@
     p.exercises.forEach(ex=>{
       if(ex[0]==='Уголок с согнутыми ногами') ex[0]='Уголок';
       if(ex[0].includes('Выход силой')&&ex[0].includes('резинк')&&plans[day]) ex[1]=plans[day];
+      if(ex[0].includes('Финиш: 10 подтягиваний')) ex[3]='2–3 мин';
     });
   });
   if(typeof renderWeek==='function') renderWeek();
