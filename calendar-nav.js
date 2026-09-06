@@ -74,7 +74,6 @@
     openExercise=null;renderWeek();
   }
 
-  const originalRenderWeek=renderWeek;
   renderWeek=function(){
     const mon=mondayOf(viewedWeek),sun=dayDate(6),data=getWeekData(),done=countCompleted(data),total=totalExercises(),pct=total?Math.round(done/total*100):0;
     $('#weekLabel').textContent=`${mon.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})} — ${sun.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}`;
@@ -109,4 +108,31 @@
   if(todayButton)todayButton.addEventListener('click',()=>{viewedWeek=currentWeek();selectedDay=getTodayKey();openExercise=null;renderWeek()},true);
 
   renderWeek();
+})();
+
+/* v28: заранее прогреваем скрытые разделы и декодируем изображения, чтобы открывались без паузы */
+(()=>{
+  let imagesWarmed=false;
+  const sources=['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
+  function warmImages(){
+    if(imagesWarmed)return;
+    imagesWarmed=true;
+    sources.forEach(src=>{
+      const img=new Image();
+      img.decoding='async';
+      img.src=src;
+      if(img.decode)img.decode().catch(()=>{});
+    });
+    document.querySelectorAll('img').forEach(img=>{try{if(img.decode)img.decode().catch(()=>{})}catch{}});
+  }
+  function warmHistory(){try{if(typeof renderHistory==='function')renderHistory()}catch{}}
+  const idle=window.requestIdleCallback||((fn)=>setTimeout(fn,40));
+  idle(()=>{warmImages();warmHistory()});
+  ['menuElements','menuHistory','menuToday'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const warm=()=>{warmImages();if(id==='menuHistory')warmHistory()};
+    el.addEventListener('pointerdown',warm,{passive:true});
+    el.addEventListener('touchstart',warm,{passive:true});
+  });
+  document.querySelectorAll('[data-open-skill]').forEach(el=>el.addEventListener('pointerdown',warmImages,{passive:true}));
 })();
