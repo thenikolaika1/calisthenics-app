@@ -1,5 +1,5 @@
-const CACHE='calisthenics-v33';
-const STATIC=['./','./index.html','./styles.css?v=24','./contrast.css?v=24','./calendar-nav.css?v=32.1','./progress-v33.css?v=33','./app.js?v=28','./program-update-v31.js?v=31','./day-status-v32.js?v=32','./progress-v33.js?v=33','./tab-animation.js?v=24','./calendar-nav.js?v=28','./manifest.webmanifest?v=27','./app-icon.png?v=27'];
+const CACHE='calisthenics-v34';
+const STATIC=['./','./index.html','./styles.css?v=24','./contrast.css?v=24','./calendar-nav.css?v=32.1','./progress-v33.css?v=34','./app.js?v=28','./program-update-v31.js?v=31','./day-status-v32.js?v=32','./progress-v33.js?v=33','./bands-v34.js?v=34','./tab-animation.js?v=24','./calendar-nav.js?v=28','./manifest.webmanifest?v=27','./app-icon.png?v=27'];
 const IMAGES=['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png','./planche.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll([...STATIC,...IMAGES])).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
