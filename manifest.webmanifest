@@ -10,6 +10,6 @@
   "theme_color": "#050505",
   "orientation": "portrait-primary",
   "icons": [
-    {"src":"./app-icon.png?v=27","sizes":"1254x1254","type":"image/png","purpose":"any"}
+    {"src":"./app-icon-v2.png?v=50","sizes":"1024x1024","type":"image/png","purpose":"any"}
   ]
 }
