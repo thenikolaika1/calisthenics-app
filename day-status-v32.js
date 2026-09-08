@@ -10,9 +10,10 @@
       const key=DAYS[i]?.[0];
       const date=dayDate(i);
       const isToday=sameLocalDay(date,today);
-      const isDone=key&&typeof dayIsDone==='function'?dayIsDone(data,key):false;
+      const hasWorkout=key&&typeof completedForDay==='function'?completedForDay(data,key)>0:false;
       button.classList.toggle('is-today',isToday);
-      button.classList.toggle('is-complete',isDone);
+      button.classList.toggle('is-complete',hasWorkout);
+      button.classList.toggle('done',hasWorkout);
       if(isToday)button.setAttribute('aria-current','date');else button.removeAttribute('aria-current');
     });
   }
