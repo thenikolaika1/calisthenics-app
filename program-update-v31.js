@@ -57,6 +57,27 @@
       ['Финиш: выход силой','2 × 2','Финиш','2–3 мин']
     ]}
   };
+
   Object.entries(PROGRAM).forEach(([day,p])=>{p.subtitle=plans[day].subtitle;p.load=plans[day].load;p.exercises=plans[day].exercises.map(x=>[...x])});
+
+  // Front Lever starts on 10 Sep 2026. Old muscle-up checkmarks from Mon-Wed
+  // used the same IDs, so hide/remove them once while keeping a backup copy.
+  try{
+    const resetFlag='frontlever:v72:week-reset';
+    if(!localStorage.getItem(resetFlag)){
+      const wk=typeof weekKey==='function'?weekKey(new Date(2026,8,10)):'week:2026-09-07';
+      const raw=localStorage.getItem(wk);
+      if(raw){
+        localStorage.setItem('archive:muscleup:'+wk,raw);
+        const data=JSON.parse(raw)||{};
+        ['mon','tue','wed'].forEach(day=>{
+          Object.keys(data).forEach(k=>{if(k===day||k.startsWith(day+':')) delete data[k]});
+        });
+        localStorage.setItem(wk,JSON.stringify(data));
+      }
+      localStorage.setItem(resetFlag,'1');
+    }
+  }catch(e){}
+
   if(typeof renderWeek==='function') renderWeek();
 })();
