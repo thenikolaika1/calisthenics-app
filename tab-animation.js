@@ -1,7 +1,7 @@
 (()=>{
   const configs=[
     {skill:'onearm',id:'onearmView',title:'Подтягивание на одной руке',text:'Максимальный уровень тяговой силы и контроля. Отдельную прогрессию добавим позже.',image:'./one-arm-pull-up.png'},
-    {skill:'frontlever',id:'frontleverView',title:'Передний вис',text:'Сложный элемент на силу спины, плеч и корпуса. Программа появится после текущего этапа.',image:'./front-lever.png?v=27'},
+    {skill:'frontlever',id:'frontleverView',title:'Передний вис',text:'Текущая цель: развиваем силу спины, прямых рук и корпуса.',image:'./front-lever.png?v=27'},
     {skill:'planche',id:'plancheView',title:'Горизонт',text:'Сильная жимовая цель на контроль всего тела. Будем добавлять её постепенно.',image:'./planche.png'}
   ];
   const original=document.getElementById('futureView');
@@ -12,4 +12,18 @@
   function ready(img){if(!img)return Promise.resolve();if(img.complete&&img.naturalWidth>0)return img.decode?img.decode().catch(()=>{}):Promise.resolve();return new Promise(resolve=>{const end=()=>resolve();img.addEventListener('load',end,{once:true});img.addEventListener('error',end,{once:true})})}
   tabs.forEach(tab=>tab.addEventListener('click',async e=>{e.preventDefault();e.stopImmediatePropagation();if(switching||tab.classList.contains('active'))return;const oldView=document.querySelector('.view.active'),target=document.getElementById(map[tab.dataset.skill]);if(!oldView||!target)return;switching=true;tabs.forEach(t=>t.classList.toggle('active',t===tab));const oldImg=posterImg(oldView),newImg=posterImg(target);await ready(newImg);activate(target);const poster=target.querySelector('.poster-card');if(!newImg||!poster||!oldImg){switching=false;return}const ghost=oldImg.cloneNode(true);ghost.className='pose-layer-old';ghost.removeAttribute('id');poster.appendChild(ghost);newImg.classList.add('pose-layer-new');newImg.style.opacity='0.14';newImg.style.transform='scale(.992)';requestAnimationFrame(()=>requestAnimationFrame(()=>{ghost.classList.add('pose-layer-fade');newImg.style.opacity='1';newImg.style.transform='scale(1)'}));setTimeout(()=>{ghost.remove();newImg.classList.remove('pose-layer-new');newImg.style.opacity='';newImg.style.transform='';switching=false},340)},true));
   ['./muscle-up.png','./one-arm-pull-up.png','./front-lever.png?v=27','./planche.png'].forEach(src=>{const img=new Image();img.loading='eager';img.fetchPriority='high';img.src=src;if(img.decode)img.decode().catch(()=>{})});
+
+  // v69: Front Lever is now the current goal. Keep all existing images/animations intact.
+  const nav=document.querySelector('.skill-tabs'),flTab=nav?.querySelector('[data-skill="frontlever"]'),oaTab=nav?.querySelector('[data-skill="onearm"]');
+  if(nav&&flTab&&oaTab)nav.insertBefore(flTab,oaTab);
+  const grid=document.querySelector('.goal-grid'),flCard=grid?.querySelector('[data-open-skill="frontlever"]'),oaCard=grid?.querySelector('[data-open-skill="onearm"]'),muCard=grid?.querySelector('[data-open-skill="muscleup"]');
+  if(grid&&flCard&&oaCard)grid.insertBefore(flCard,oaCard);
+  if(muCard){const s=muCard.querySelector('small');if(s)s.textContent='ДОСТИГНУТО'}
+  if(flCard){const s=flCard.querySelector('small');if(s)s.textContent='ТЕКУЩАЯ ЦЕЛЬ'}
+  const loader=document.createElement('script');loader.src='./frontlever-v69.js?v=69';document.body.appendChild(loader);
+  setTimeout(()=>{
+    const todayBtn=document.getElementById('menuToday'),elementsBtn=document.getElementById('menuElements');
+    todayBtn?.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();if(typeof chooseSkill==='function')chooseSkill('frontlever');setTimeout(()=>window.openFrontLeverToday?.(),420)},true);
+    elementsBtn?.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();if(typeof chooseSkill==='function')chooseSkill('frontlever')},true);
+  },0);
 })();
