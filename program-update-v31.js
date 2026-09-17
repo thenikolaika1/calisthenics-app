@@ -15,6 +15,11 @@
     sun:{subtitle:'Передний вис · умеренно',load:'УМЕРЕННО',exercises:[
       ['Tuck Front Lever','2 × 5–10 сек','Элемент','2–3 мин'],['Front Lever с резинкой','2 × 5–10 сек','Элемент','2–3 мин'],['Чистые подтягивания','2 × 5','Сила','60–90 сек'],['Высокие подтягивания','2 × 2–3','Мощность','2–3 мин'],['Уголок','2 подхода','Кор','45–60 сек'],['Финиш: выход силой','2 × 2','Финиш','2–3 мин']]}
   };
+  // One-time recovery workout after illness: Thu, 17 Sep 2026 only.
+  if(typeof localDateKey==='function'&&localDateKey(new Date())==='2026-09-17'){
+    plans.thu={subtitle:'Передний вис · основной день · облегчённо',load:'ОСНОВНОЙ ДЕНЬ',exercises:[
+      ['Tuck Front Lever','2 × 5–10 сек','Элемент','2–3 мин'],['Подъёмы в Tuck Front Lever','2 × 3–5','Сила','2–3 мин'],['Front Lever с резинкой','2 × 5–10 сек','Элемент','2–3 мин'],['Подтягивания в Tuck Front Lever','2 × 3–5','Сила','2–3 мин'],['Уголок','2 подхода','Кор','45–60 сек'],['Финиш: выход силой','2 × 2','Финиш','2–3 мин']]};
+  }
   Object.entries(PROGRAM).forEach(([day,p])=>{p.subtitle=plans[day].subtitle;p.load=plans[day].load;p.exercises=plans[day].exercises.map(x=>[...x])});
   try{const resetFlag='frontlever:v72:week-reset';if(!localStorage.getItem(resetFlag)){const wk=typeof weekKey==='function'?weekKey(new Date(2026,8,10)):'week:2026-09-07';const raw=localStorage.getItem(wk);if(raw){localStorage.setItem('archive:muscleup:'+wk,raw);const data=JSON.parse(raw)||{};['mon','tue','wed'].forEach(day=>{Object.keys(data).forEach(k=>{if(k===day||k.startsWith(day+':'))delete data[k]})});localStorage.setItem(wk,JSON.stringify(data))}localStorage.setItem(resetFlag,'1')}}catch(e){}
   if(typeof renderWeek==='function')renderWeek();
