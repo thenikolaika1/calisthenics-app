@@ -33,6 +33,7 @@
   weekSection.insertBefore(nav,weekSection.firstChild);
 
   const currentWeek=()=>mondayOf(new Date());
+  window.getViewedWeek=()=>new Date(viewedWeek);
   const weekMonthDate=(week=viewedWeek)=>{const d=mondayOf(week);d.setDate(d.getDate()+3);return d};
   const monthIndex=d=>d.getFullYear()*12+d.getMonth();
   const sameWeek=(a,b)=>mondayOf(a).getTime()===mondayOf(b).getTime();
@@ -75,7 +76,8 @@
   }
 
   renderWeek=function(){
-    const mon=mondayOf(viewedWeek),sun=dayDate(6),data=getWeekData(),done=countCompleted(data),total=totalExercises(),pct=total?Math.round(done/total*100):0;
+    if(typeof activateProgram==='function')activateProgram(viewedWeek);
+    const mon=mondayOf(viewedWeek),sun=dayDate(6),data=getWeekData(),done=countCompleted(data,viewedWeek),total=totalExercises(viewedWeek),pct=total?Math.round(done/total*100):0;
     $('#weekLabel').textContent=`${mon.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})} — ${sun.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}`;
     $('#weekPercent').textContent=`${pct}%`;
     $('#weekProgressBar').style.width=`${pct}%`;
